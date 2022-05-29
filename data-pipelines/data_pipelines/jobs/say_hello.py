@@ -2,6 +2,7 @@ from dagster import job
 
 from data_pipelines.ops.hello import hello
 
+
 @job
 def say_hello_job():
     """
