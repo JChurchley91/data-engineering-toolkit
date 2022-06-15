@@ -1,4 +1,4 @@
-from data_pipelines.jobs.say_hello import say_hello_job
+from data_pipelines.source_jobs.load_penguins import say_hello_job
 
 
 def test_say_hello():
