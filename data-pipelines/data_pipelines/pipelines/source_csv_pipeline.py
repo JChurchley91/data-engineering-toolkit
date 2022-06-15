@@ -1,6 +1,4 @@
-import pandas as pd
-
-from pandas import DataFrame
+from pandas import DataFrame, read_csv
 from data_pipelines.utils.yaml_loader import YamlLoader
 from data_pipelines.utils.sql import get_sql_engine
 
@@ -19,7 +17,7 @@ class SourceCsvPipeline:
         self.target_schema_name = self.config["target_schema_name"]
 
     def load_data_from_landing(self) -> DataFrame:
-        df = pd.read_csv(
+        df = read_csv(
             f"../data/landing/{self.source_folder_name}/{self.source_file_name}"
         )
         return df

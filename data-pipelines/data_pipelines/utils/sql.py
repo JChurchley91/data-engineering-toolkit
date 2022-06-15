@@ -1,9 +1,17 @@
-import sqlalchemy as sa
+from data_pipelines.utils.yaml_loader import YamlLoader
+from sqlalchemy import create_engine
+
+
+def get_sql_config():
+    loader = YamlLoader()
+    sql_config = loader.load_yaml_file('../config/sql.yaml')
+    return sql_config
 
 
 def get_sql_engine():
-    engine = sa.create_engine(
-        "postgresql+psycopg2://doadmin:AVNS_h_QaOUgRoYRpzXt@lemonheadwizards-do-user-11633707-0.b.db.ondigitalocean"
-        ".com:25060/lemonheadwizards"
+    sql_config = get_sql_config()
+    engine = create_engine(
+        f"postgresql+psycopg2://{sql_config['username']}:{sql_config['password']}{sql_config['host']}"
+        f":{sql_config['port']}/{sql_config['database']}"
     ).connect()
     return engine
