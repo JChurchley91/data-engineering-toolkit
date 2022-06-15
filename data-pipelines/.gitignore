@@ -1,6 +1,6 @@
 # Misc
 data_pipelines/source_jobs/penguins.yaml
-data_pipelines/target_jobs/target_config.yaml
+data_pipelines/target_jobs/penguins.yaml
 test.py
 
 # Byte-compiled / optimized / DLL files

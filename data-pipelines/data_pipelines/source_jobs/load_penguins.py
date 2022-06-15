@@ -1,5 +1,5 @@
 from data_pipelines.utils.yaml_loader import YamlLoader
-from data_pipelines.pipelines.csv_pipeline import csvPipeline
+from data_pipelines.pipelines.source_csv_pipeline import SourceCsvPipeline
 
 
 def get_job_config() -> list:
@@ -9,5 +9,6 @@ def get_job_config() -> list:
 
 
 job_config = get_job_config()
-pipeline = csvPipeline(job_config)
-pipeline.execute_pipeline()
+
+source_pipeline = SourceCsvPipeline(job_config)
+source_pipeline.execute_pipeline()

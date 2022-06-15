@@ -6,7 +6,7 @@ import pandas as pd
 import os
 
 
-class csvPipeline:
+class SourceCsvPipeline:
     def __init__(self, job_config):
         self.yaml_loader = YamlLoader()
         self.job_config = job_config
@@ -17,8 +17,8 @@ class csvPipeline:
         self.target_folder_name = self.job_config['target_file_path_folder_name']
         self.target_file_name = self.job_config['target_file_path_file_name']
 
-    def get_digital_ocean_config(self) -> list:
-        config = self.yaml_loader.load_yaml_file('../config/digital_ocean.yaml')
+    def get_storage_config(self) -> list:
+        config = self.yaml_loader.load_yaml_file('../config/storage.yaml')
         return config
 
     def load_data_from_landing(self) -> DataFrame:
@@ -33,14 +33,14 @@ class csvPipeline:
         pass
 
     def write_data_to_target(self):
-        digital_ocean_config = self.get_digital_ocean_config()
+        storage_config = self.get_storage_config()
         boto_session = session.Session()
         boto_client = boto_session.client(
             "s3",
-            region_name=f"{digital_ocean_config['region_name']}",
-            endpoint_url=f"{digital_ocean_config['endpoint_url']}",
-            aws_access_key_id=f"{digital_ocean_config['access_key_id']}",
-            aws_secret_access_key=f"{digital_ocean_config['secret_access_key']}",
+            region_name=f"{storage_config['region_name']}",
+            endpoint_url=f"{storage_config['endpoint_url']}",
+            aws_access_key_id=f"{storage_config['access_key_id']}",
+            aws_secret_access_key=f"{storage_config['secret_access_key']}",
         )
         boto_client.upload_file(self.source_file_name, self.target_folder_name, self.target_file_name)
         return None
