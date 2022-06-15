@@ -1,8 +1,7 @@
 # Misc
-.config.yaml
-.data_pipelines/source_jobs/source_config.yaml
-.data_pipelines/target_jobs/target_config.yaml
-.test.py
+data_pipelines/source_jobs/penguins.yaml
+data_pipelines/target_jobs/target_config.yaml
+test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
