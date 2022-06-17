@@ -1,7 +1,6 @@
 from pandas import DataFrame, read_csv
 from data_pipelines.utils.yaml_loader import YamlLoader
 from data_pipelines.utils.sql import get_sql_engine
-from datetime import datetime
 
 
 class SourceCsvPipeline:
@@ -44,30 +43,16 @@ class SourceCsvPipeline:
         )
         return None
 
-    def write_pipeline_logs(self, start_time, end_time):
-        statement = f"insert into metadata.pipeline_logs" \
-                    f"(pipeline_id, pipeline_name, start_time, end_time, pipeline_status) " \
-                    f"values " \
-                    f"({self.source_job_id}," \
-                    f"'{self.job_name}'," \
-                    f"'{start_time}'," \
-                    f"'{end_time}'," \
-                    f"'succesful')"
+    def write_pipeline_logs(self):
+        statement = (
+            f"insert into metadata.pipeline_logs"
+            f"(pipeline_id, pipeline_name, start_time, end_time, pipeline_status) "
+            f"values "
+            f"({self.source_job_id},"
+            f"'{self.job_name}',"
+            f"'{self.start_time}',"
+            f"'{self.end_time}',"
+            f"'succesful')"
+        )
         self.engine.execute(statement)
         return None
-
-    def execute_pipeline(self):
-        start_time = datetime.now()
-        try:
-            df = self.load_data_from_landing()
-        except FileNotFoundError:
-            print(
-                "file not found - please check the specified file name in yaml config!"
-            )
-
-        if self.perform_quality_checks(df):
-            self.write_data_to_target(df)
-            end_time = datetime.now()
-            self.write_pipeline_logs(start_time, end_time)
-        else:
-            print("dataframe is empty - no data will be inserted into database!")

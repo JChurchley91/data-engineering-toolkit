@@ -1,10 +1,8 @@
 from data_pipelines.pipelines.source_csv_pipeline import SourceCsvPipeline
 from dagster import op, job
 from pandas import DataFrame
-from datetime import datetime
 
 source_pipeline = SourceCsvPipeline("data_pipelines/source_jobs/penguins.yaml")
-start_time = datetime.now()
 
 
 @op
@@ -30,4 +28,3 @@ def load_penguins():
     df = extract_data()
     if perform_quality_checks(df):
         write_data_to_target(df)
-
