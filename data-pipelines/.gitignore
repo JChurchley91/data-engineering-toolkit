@@ -141,3 +141,4 @@ data_pipelines/data/landing/online_retail.xlsx
 data_pipelines/data/landing/seoul_bikes.csv
 data-pipelines/data_pipelines/data/landing/penguins/penguins.csv
 /data_pipelines/config/
+/data-pipelines/data_pipelines/data/landing/lego/
