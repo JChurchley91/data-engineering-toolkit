@@ -7,24 +7,31 @@ source_pipeline = SourceCsvPipeline("data_pipelines/source_jobs/penguins.yaml")
 
 @op
 def extract_penguins_data() -> DataFrame:
-    df = source_pipeline.load_data_from_landing()
+    df = source_pipeline.extract_data()
     return df
 
 
 @op
-def quality_check_penguins_data(df) -> bool:
-    checks_passed = source_pipeline.perform_quality_checks(df)
+def check_penguins_data(df) -> bool:
+    checks_passed = source_pipeline.quality_checks(df)
     return checks_passed
 
 
 @op
-def write_penguins_to_target(df) -> None:
-    source_pipeline.write_data_to_target(df)
+def insert_penguins_data(df) -> None:
+    source_pipeline.insert_data(df)
+    return None
+
+
+@op
+def write_penguins_logs(df):
+    source_pipeline.write_logs(df)
     return None
 
 
 @job
 def load_penguins():
     df = extract_penguins_data()
-    if quality_check_penguins_data(df):
-        write_penguins_to_target(df)
+    if check_penguins_data(df):
+        insert_penguins_data(df)
+        write_penguins_logs(df)
