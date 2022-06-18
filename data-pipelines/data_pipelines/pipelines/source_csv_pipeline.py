@@ -18,7 +18,8 @@ class SourceCsvPipeline:
 
     def load_data_from_landing(self) -> DataFrame:
         df = read_csv(
-            f"data_pipelines/data/landing/{self.source_folder_name}/{self.source_file_name}"
+            f"data_pipelines/data/landing/{self.source_folder_name}/{self.source_file_name}",
+            encoding='unicode_escape'
         )
         return df
 
