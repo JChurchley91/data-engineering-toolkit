@@ -1,7 +1,7 @@
+from dagster import job, op
 from data_pipelines.pipelines.source_csv_to_database_pipeline import (
     SourceCsvToDatabasePipeline,
 )
-from dagster import job, op
 
 
 @op
