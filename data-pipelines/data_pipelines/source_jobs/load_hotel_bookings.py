@@ -3,7 +3,7 @@ from dagster import job
 
 
 @job
-def load_penguins():
-    source_pipeline = SourceCsvToDatabasePipeline("data_pipelines/source_jobs/configs/penguins.yaml")
+def load_hotel_bookings():
+    source_pipeline = SourceCsvToDatabasePipeline("data_pipelines/source_jobs/configs/hotel_bookings.yaml")
     source_pipeline.execute_pipeline()
     return None
