@@ -14,7 +14,7 @@ class LogWriter:
         statement = (
             f"insert into metadata.pipeline_logs"
             f"(pipeline_id, pipeline_name, start_time, end_time, rows_inserted, pipeline_status) "
-            f"values "
+            f"values"
             f"({self.source_job_id},"
             f"'{self.source_job_name}',"
             f"'{self.start_time}',"
