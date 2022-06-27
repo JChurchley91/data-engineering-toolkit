@@ -36,12 +36,15 @@ class SourceCsvToDatabasePipeline:
         self.data_writer.insert_data_to_database(df, self.target_table_name, self.target_schema_name)
         return None
 
-    def write_logs(self, df):
-        self.log_writer.write_logs(df)
+    def write_logs(self, df, status):
+        self.log_writer.write_logs(df, status)
         return None
 
     def execute_pipeline(self):
         df = self.extract_data()
+
         if self.data_checker.check_df_exists(df):
             self.insert_data(df)
-            self.write_logs(df)
+            self.write_logs(df, 'successful')
+        else:
+            self.write_logs(df, 'failed')
