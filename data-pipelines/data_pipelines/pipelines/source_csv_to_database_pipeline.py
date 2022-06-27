@@ -4,7 +4,7 @@ from data_pipelines.utils.yaml_loader import YamlLoader
 from data_pipelines.utils.sql import get_sql_engine
 
 
-class SourceCsvPipeline:
+class SourceCsvToDatabasePipeline:
     def __init__(self, job_name):
         self.job_name = job_name
         self.start_time = datetime.now()
@@ -51,13 +51,20 @@ class SourceCsvPipeline:
         end_time = datetime.now()
         statement = (
             f"insert into metadata.pipeline_logs"
-            f"(pipeline_id, pipeline_name, start_time, end_time, pipeline_status) "
+            f"(pipeline_id, pipeline_name, start_time, end_time, rows_inserted, pipeline_status) "
             f"values "
             f"({self.source_job_id},"
             f"'{self.source_job_name}',"
             f"'{self.start_time}',"
             f"'{end_time}',"
+            f"{data_length},"
             f"'succesful')"
         )
         self.engine.execute(statement)
         return None
+
+    def execute_pipeline(self):
+        df = self.extract_data()
+        if self.quality_checks(df):
+            self.insert_data(df)
+            self.write_logs(df)
