@@ -131,14 +131,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-data_pipelines/data/landing/customer_churn.csv
-data_pipelines/data/landing/hotel_bookings.csv
-data_pipelines/data/landing/online_retail.xlsx
-data_pipelines/data/landing/seoul_bikes/seoul_bikes.csv
 
-
-
-/data-pipelines/data_pipelines/config/
-/data-pipelines/data_pipelines/data/landing/penguins/penguins.csv
-/data-pipelines/data_pipelines/data/landing/lego/
-/data_pipelines/data/landing/hotel_bookings/hotel_bookings.csv
+/data_pipelines/data/
+/data_pipelines/config/
