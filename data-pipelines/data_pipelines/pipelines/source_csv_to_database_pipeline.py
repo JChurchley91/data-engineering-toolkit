@@ -1,22 +1,23 @@
 from pandas import DataFrame, read_csv
 from datetime import datetime
-from data_pipelines.utils.yaml_loader import YamlLoader
-from data_pipelines.utils.sql import get_sql_engine
+from data_pipelines.utils.config_loader import ConfigLoader
+from data_pipelines.utils.sql import SqlEngine
+from data_pipelines.utils.log_writer import LogWriter
 
 
 class SourceCsvToDatabasePipeline:
     def __init__(self, job_name):
         self.job_name = job_name
         self.start_time = datetime.now()
-        self.yaml_loader = YamlLoader()
-        self.config = self.yaml_loader.load_yaml_file(self.job_name)
-        self.engine = get_sql_engine()
+        self.engine = SqlEngine().get_sql_engine()
+        self.config = ConfigLoader(self.job_name).get_config()
         self.source_job_name = self.config["source_job_name"]
         self.source_job_id = self.config["source_job_id"]
         self.source_folder_name = self.config["source_folder_name"]
         self.source_file_name = self.config["source_file_name"]
         self.target_table_name = self.config["target_table_name"]
         self.target_schema_name = self.config["target_schema_name"]
+        self.log_writer = LogWriter(self.source_job_id, self.source_job_name, self.start_time)
 
     def extract_data(self) -> DataFrame:
         df = read_csv(
@@ -47,20 +48,7 @@ class SourceCsvToDatabasePipeline:
         return None
 
     def write_logs(self, df):
-        data_length = len(df)
-        end_time = datetime.now()
-        statement = (
-            f"insert into metadata.pipeline_logs"
-            f"(pipeline_id, pipeline_name, start_time, end_time, rows_inserted, pipeline_status) "
-            f"values "
-            f"({self.source_job_id},"
-            f"'{self.source_job_name}',"
-            f"'{self.start_time}',"
-            f"'{end_time}',"
-            f"{data_length},"
-            f"'succesful')"
-        )
-        self.engine.execute(statement)
+        self.log_writer.write_logs(df)
         return None
 
     def execute_pipeline(self):
