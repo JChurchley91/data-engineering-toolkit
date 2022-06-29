@@ -3,4 +3,4 @@ source_job_id: 1
 source_folder_name: 'penguins'
 source_file_name: 'penguins.csv'
 target_table_name: 'penguins'
-target_schema_name: 'landing'
+target_schema_name: 'sourced'

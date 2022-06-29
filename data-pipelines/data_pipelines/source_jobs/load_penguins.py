@@ -4,7 +4,6 @@ from data_pipelines.pipelines.source_csv_to_database_pipeline import (
 )
 
 
-
 @op
 def op_load_penguins():
     source_pipeline = SourceCsvToDatabasePipeline(
