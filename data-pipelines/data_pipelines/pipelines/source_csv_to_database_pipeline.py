@@ -56,7 +56,7 @@ class SourceCsvToDatabasePipeline:
     def execute_pipeline(self):
         df = self.extract_data()
 
-        if self.data_checker.check_df_exists(df):
+        if self.data_checker.validate_df_exists(df):
             self.add_metadata(df)
 
             try:
