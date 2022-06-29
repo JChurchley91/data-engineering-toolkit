@@ -11,7 +11,7 @@ class LogWriter:
         self.end_time = datetime.now()
         self.engine = SqlEngine().get_sql_engine()
 
-    def write_logs(self, df, status):
+    def write_logs(self, df, status, end_time):
         statement = (
             f"insert into metadata.pipeline_logs"
             f"(pipeline_id, pipeline_name, pipeline_run_date, start_time, end_time, data_row_count, pipeline_status) "
@@ -20,7 +20,7 @@ class LogWriter:
             f"'{self.source_job_name}',"
             f"'{self.pipeline_run_date}',"
             f"'{self.start_time}',"
-            f"'{self.end_time}',"
+            f"'{end_time}',"
             f"{len(df)},"
             f"'{status}')"
         )

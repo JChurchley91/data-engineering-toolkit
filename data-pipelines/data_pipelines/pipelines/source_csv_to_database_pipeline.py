@@ -49,8 +49,8 @@ class SourceCsvToDatabasePipeline:
         )
         return None
 
-    def write_logs(self, df, status):
-        self.log_writer.write_logs(df, status)
+    def write_logs(self, df, status, end_time):
+        self.log_writer.write_logs(df, status, end_time)
         return None
 
     def execute_pipeline(self):
@@ -61,9 +61,9 @@ class SourceCsvToDatabasePipeline:
 
             try:
                 self.insert_data(df)
-                self.write_logs(df, "successful")
+                self.write_logs(df, "successful", datetime.now())
             except OperationalError:
-                self.write_logs(df, "failed")
+                self.write_logs(df, "failed", datetime.now())
 
         else:
-            self.write_logs(df, "failed")
+            self.write_logs(df, "failed", datetime.now())
