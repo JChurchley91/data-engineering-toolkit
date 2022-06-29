@@ -1,5 +1,6 @@
 target_job_name: 'target_get_penguins'
 target_job_id: 1
+sourced_schema_name: 'sourced'
 sourced_table_name: 'penguins'
 target_table_name: 'penguins'
 target_schema_name: 'cleansed'
