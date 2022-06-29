@@ -1,3 +1,4 @@
+import pandas as pd
 from pandas import DataFrame, read_csv
 
 
@@ -11,4 +12,9 @@ class DataReader:
             f"data_pipelines/data/landing/{source_folder_name}/{source_file_name}",
             encoding="unicode_escape",
         )
+        return df
+
+    @staticmethod
+    def extract_database_data(table_name, schema_name, engine):
+        df = pd.read_sql_table(table_name, schema=schema_name, con=engine)
         return df

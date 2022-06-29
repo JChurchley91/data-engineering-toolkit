@@ -1,4 +1,4 @@
-source_job_name: 'src_get_hotel_bookings'
+source_job_name: 'source_get_hotel_bookings'
 source_job_id: 3
 source_folder_name: 'hotel_bookings'
 source_file_name: 'hotel_bookings.csv'

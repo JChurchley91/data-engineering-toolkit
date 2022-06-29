@@ -2,7 +2,7 @@ from pandas import DataFrame
 from datetime import datetime
 from sqlalchemy.exc import OperationalError
 from data_pipelines.utils.config_loader import ConfigLoader
-from data_pipelines.utils.sql import SqlEngine
+from data_pipelines.utils.sql_engine import SqlEngine
 from data_pipelines.utils.data_reader import DataReader
 from data_pipelines.utils.data_writer import DataWriter
 from data_pipelines.utils.df_validator import DFValidator
@@ -26,9 +26,7 @@ class SourceCsvToDatabasePipeline:
         self.source_file_name = self.config["source_file_name"]
         self.target_table_name = self.config["target_table_name"]
         self.target_schema_name = self.config["target_schema_name"]
-        self.log_writer = LogWriter(
-            self.source_job_id, self.source_job_name, self.start_time
-        )
+        self.log_writer = LogWriter(self.source_job_id, self.source_job_name)
 
     def extract_data(self) -> DataFrame:
         df = self.data_reader.extract_csv_data(
