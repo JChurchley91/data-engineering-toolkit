@@ -3,6 +3,7 @@ from data_pipelines.pipelines.source_csv_to_database_pipeline import (
     SourceCsvToDatabasePipeline,
 )
 
+
 @op
 def op_load_hotel_bookings():
     source_pipeline = SourceCsvToDatabasePipeline(

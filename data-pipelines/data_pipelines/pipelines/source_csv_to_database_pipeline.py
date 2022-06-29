@@ -6,6 +6,8 @@ from data_pipelines.utils.data_reader import DataReader
 from data_pipelines.utils.data_writer import DataWriter
 from data_pipelines.utils.data_checker import DataChecker
 from data_pipelines.utils.log_writer import LogWriter
+from data_pipelines.utils.metadata_writer import MetadataWriter
+from sqlalchemy.exc import OperationalError
 
 
 class SourceCsvToDatabasePipeline:
@@ -17,23 +19,34 @@ class SourceCsvToDatabasePipeline:
         self.data_reader = DataReader()
         self.data_writer = DataWriter()
         self.data_checker = DataChecker()
+        self.metadata_writer = MetadataWriter()
         self.source_job_name = self.config["source_job_name"]
         self.source_job_id = self.config["source_job_id"]
         self.source_folder_name = self.config["source_folder_name"]
         self.source_file_name = self.config["source_file_name"]
         self.target_table_name = self.config["target_table_name"]
         self.target_schema_name = self.config["target_schema_name"]
-        self.log_writer = LogWriter(self.source_job_id, self.source_job_name, self.start_time)
+        self.log_writer = LogWriter(
+            self.source_job_id, self.source_job_name, self.start_time
+        )
 
     def extract_data(self) -> DataFrame:
-        df = self.data_reader.extract_csv_data(self.source_folder_name, self.source_file_name)
+        df = self.data_reader.extract_csv_data(
+            self.source_folder_name, self.source_file_name
+        )
         return df
 
     def check_df_exists(self, df):
         return self.data_checker.check_df_exists(df)
 
+    def add_metadata(self, df):
+        df = self.metadata_writer.add_datetime_metadata(df)
+        return df
+
     def insert_data(self, df):
-        self.data_writer.insert_data_to_database(df, self.target_table_name, self.target_schema_name)
+        self.data_writer.insert_data_to_database(
+            df, self.target_table_name, self.target_schema_name
+        )
         return None
 
     def write_logs(self, df, status):
@@ -44,7 +57,13 @@ class SourceCsvToDatabasePipeline:
         df = self.extract_data()
 
         if self.data_checker.check_df_exists(df):
-            self.insert_data(df)
-            self.write_logs(df, 'successful')
+            self.add_metadata(df)
+
+            try:
+                self.insert_data(df)
+                self.write_logs(df, "successful")
+            except OperationalError:
+                self.write_logs(df, "failed")
+
         else:
-            self.write_logs(df, 'failed')
+            self.write_logs(df, "failed")

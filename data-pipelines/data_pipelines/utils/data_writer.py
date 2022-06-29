@@ -14,4 +14,3 @@ class DataWriter:
             index=False,
         )
         return None
-
