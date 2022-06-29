@@ -19,6 +19,7 @@ class SourcedToCleansedPipeline:
         self.sourced_table_name = self.config["sourced_table_name"]
         self.target_table_name = self.config["target_table_name"]
         self.target_schema_name = self.config["target_schema_name"]
+        self.remove_nulls = self.config["remove_nulls"]
         self.data_reader = DataReader()
         self.data_writer = DataWriter()
         self.metadata_writer = MetadataWriter()
@@ -30,9 +31,9 @@ class SourcedToCleansedPipeline:
         )
         return df
 
-    @staticmethod
-    def cleanse_database_data(df):
+    def cleanse_database_data(self, df):
         df = df.drop("datetime_loaded", 1)
+        df = df[df[self.remove_nulls].notnull()]
         return df
 
     def add_metadata(self, df):
