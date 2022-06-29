@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from data_pipelines.utils.sql import SqlEngine
+from data_pipelines.utils.sql_engine import SqlEngine
 
 
 class LogWriter:
