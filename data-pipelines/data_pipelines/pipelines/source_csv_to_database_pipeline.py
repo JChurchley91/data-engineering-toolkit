@@ -4,7 +4,7 @@ from data_pipelines.utils.config_loader import ConfigLoader
 from data_pipelines.utils.sql import SqlEngine
 from data_pipelines.utils.data_reader import DataReader
 from data_pipelines.utils.data_writer import DataWriter
-from data_pipelines.utils.data_checker import DataChecker
+from data_pipelines.utils.df_validator import DFValidator
 from data_pipelines.utils.log_writer import LogWriter
 from data_pipelines.utils.metadata_writer import MetadataWriter
 from sqlalchemy.exc import OperationalError
@@ -18,7 +18,7 @@ class SourceCsvToDatabasePipeline:
         self.config = ConfigLoader(self.job_name).get_config()
         self.data_reader = DataReader()
         self.data_writer = DataWriter()
-        self.data_checker = DataChecker()
+        self.data_checker = DFValidator()
         self.metadata_writer = MetadataWriter()
         self.source_job_name = self.config["source_job_name"]
         self.source_job_id = self.config["source_job_id"]
@@ -36,8 +36,8 @@ class SourceCsvToDatabasePipeline:
         )
         return df
 
-    def check_df_exists(self, df):
-        return self.data_checker.check_df_exists(df)
+    def validate_df_exists(self, df):
+        return self.data_checker.validate_df_exists(df)
 
     def add_metadata(self, df):
         df = self.metadata_writer.add_datetime_metadata(df)
