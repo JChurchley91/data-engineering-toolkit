@@ -29,10 +29,10 @@ class SourcedToCleansedPipeline:
                                                     self.sql_engine)
         return df
 
-    def cleanse_database_data(self, df):
-        # DROP DATETIME
-        # CLEANSE SHIT
-        pass
+    @staticmethod
+    def cleanse_database_data(df):
+        df = df.drop("datetime_loaded", 1)
+        return df
 
     def add_metadata(self, df):
         df = self.metadata_writer.add_datetime_metadata(df)
@@ -50,4 +50,9 @@ class SourcedToCleansedPipeline:
 
     def execute_pipeline(self):
         df = self.extract_database_data()
-        print(df.head())
+        df = self.cleanse_database_data(df)
+        df = self.add_metadata(df)
+
+        self.insert_data(df)
+        self.write_logs(df, 'successful', datetime.now())
+
