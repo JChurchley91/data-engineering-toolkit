@@ -25,8 +25,9 @@ class SourcedToCleansedPipeline:
         self.log_writer = LogWriter(self.target_job_id, self.target_job_name)
 
     def extract_database_data(self):
-        df = self.data_reader.extract_database_data(self.sourced_table_name, self.sourced_schema_name,
-                                                    self.sql_engine)
+        df = self.data_reader.extract_database_data(
+            self.sourced_table_name, self.sourced_schema_name, self.sql_engine
+        )
         return df
 
     @staticmethod
@@ -54,5 +55,4 @@ class SourcedToCleansedPipeline:
         df = self.add_metadata(df)
 
         self.insert_data(df)
-        self.write_logs(df, 'successful', datetime.now())
-
+        self.write_logs(df, "successful", datetime.now())
