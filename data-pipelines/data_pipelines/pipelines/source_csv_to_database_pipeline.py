@@ -1,5 +1,6 @@
 from pandas import DataFrame
 from datetime import datetime
+from sqlalchemy.exc import OperationalError
 from data_pipelines.utils.config_loader import ConfigLoader
 from data_pipelines.utils.sql import SqlEngine
 from data_pipelines.utils.data_reader import DataReader
@@ -7,7 +8,6 @@ from data_pipelines.utils.data_writer import DataWriter
 from data_pipelines.utils.df_validator import DFValidator
 from data_pipelines.utils.log_writer import LogWriter
 from data_pipelines.utils.metadata_writer import MetadataWriter
-from sqlalchemy.exc import OperationalError
 
 
 class SourceCsvToDatabasePipeline:
