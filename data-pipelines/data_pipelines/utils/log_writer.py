@@ -3,12 +3,11 @@ from data_pipelines.utils.sql_engine import SqlEngine
 
 
 class LogWriter:
-    def __init__(self, source_job_id, source_job_name, start_time):
+    def __init__(self, source_job_id, source_job_name):
         self.source_job_id = source_job_id
         self.source_job_name = source_job_name
         self.pipeline_run_date = date.today()
-        self.start_time = start_time
-        self.end_time = datetime.now()
+        self.start_time = datetime.now()
         self.engine = SqlEngine().get_sql_engine()
 
     def write_logs(self, df, status, end_time):

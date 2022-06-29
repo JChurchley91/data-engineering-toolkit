@@ -14,9 +14,9 @@ class SourcedToCleansedPipeline:
         self.config = ConfigLoader(self.job_name).get_config()
         self.target_job_id = self.config["target_job_id"]
         self.target_job_name = self.config["target_job_name"]
-        self.config = ConfigLoader(self.job_name).get_config()
+        self.sourced_table_name = self.config["sourced_table_name"]
+        self.target_table_name = self.config["target_table_name"]
+        self.target_schema_name = self.config["target_schema_name"]
         self.data_reader = DataReader()
         self.data_writer = DataWriter()
-        self.log_writer = LogWriter(
-            self.target_job_id, self.target_job_name, self.start_time
-        )
+        self.log_writer = LogWriter(self.target_job_id, self.target_job_name)

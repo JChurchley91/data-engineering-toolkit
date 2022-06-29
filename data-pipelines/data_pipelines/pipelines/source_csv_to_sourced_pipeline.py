@@ -26,9 +26,7 @@ class SourceCsvToDatabasePipeline:
         self.source_file_name = self.config["source_file_name"]
         self.target_table_name = self.config["target_table_name"]
         self.target_schema_name = self.config["target_schema_name"]
-        self.log_writer = LogWriter(
-            self.source_job_id, self.source_job_name, self.start_time
-        )
+        self.log_writer = LogWriter(self.source_job_id, self.source_job_name)
 
     def extract_data(self) -> DataFrame:
         df = self.data_reader.extract_csv_data(
