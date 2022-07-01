@@ -16,6 +16,8 @@ class BasePipeline:
         self._config = ConfigLoader(self._job_name).get_config()
         self._pipeline_name = self._config["pipeline_name"]
         self._pipeline_id = self._config["pipeline_id"]
+        self._target_table_name = self._config["target_table_name"]
+        self._target_schema_name = self._config["target_schema_name"]
         self._sql_engine = SqlEngine().get_sql_engine()
         self._data_reader = DataReader()
         self._data_writer = DataWriter()
@@ -25,6 +27,9 @@ class BasePipeline:
 
     def _validate_df_exists(self, df):
         return self._df_validator.validate_df_exists(df)
+
+    def _remove_df_nulls(self, df, column):
+        return self._df_validator.remove_df_nulls(df, column)
 
     def _add_metadata(self, df) -> DataFrame:
         df = self._metadata_writer.add_datetime_metadata(df)

@@ -14,6 +14,5 @@ class DFValidator:
 
     @staticmethod
     def remove_df_nulls(df, remove_nulls):
-        df = df.drop("datetime_loaded", 1)
         df = df[df[remove_nulls].notnull()]
         return df
