@@ -1,5 +1,5 @@
-target_job_name: 'target_get_hotel_bookings'
-target_job_id: 6
+pipeline_name: 'target_get_hotel_bookings'
+pipeline_id: 6
 sourced_schema_name: 'sourced'
 sourced_table_name: 'hotel_bookings'
 target_table_name: 'hotel_bookings'

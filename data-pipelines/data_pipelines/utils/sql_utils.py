@@ -22,7 +22,7 @@ class SqlEngine:
 
 class DataReader:
     def __init__(self):
-        pass
+        self.sql_engine = SqlEngine().get_sql_engine()
 
     @staticmethod
     def extract_csv_data(source_folder_name, source_file_name) -> DataFrame:
@@ -32,20 +32,19 @@ class DataReader:
         )
         return df
 
-    @staticmethod
-    def extract_database_data(table_name, schema_name, engine):
-        df = pd.read_sql_table(table_name, schema=schema_name, con=engine)
+    def extract_database_data(self, table_name, schema_name):
+        df = pd.read_sql_table(table_name, schema=schema_name, con=self.sql_engine)
         return df
 
 
 class DataWriter:
     def __init__(self):
-        self.engine = SqlEngine().get_sql_engine()
+        self.sql_engine = SqlEngine().get_sql_engine()
 
     def insert_data_to_database(self, df, target_table_name, target_schema_name):
         df.to_sql(
             name=target_table_name,
-            con=self.engine,
+            con=self.sql_engine,
             schema=target_schema_name,
             if_exists="replace",
             index=False,

@@ -1,5 +1,5 @@
-target_job_name: 'target_get_seoul_bikes'
-target_job_id: 5
+pipeline_name: 'target_get_seoul_bikes'
+pipeline_id: 5
 sourced_schema_name: 'sourced'
 sourced_table_name: 'seoul_bikes'
 target_table_name: 'seoul_bikes'
