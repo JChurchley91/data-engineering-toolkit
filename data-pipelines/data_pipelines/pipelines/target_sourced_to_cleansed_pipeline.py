@@ -14,10 +14,13 @@ class SourcedToCleansedPipeline(BasePipeline):
             self.sourced_table_name, self.sourced_schema_name)
         return df
 
+    def _remove_df_nulls(self, df, column):
+        return self._df_validator.remove_df_nulls(df, column)
+
     def execute_pipeline(self):
         df = self.extract_database_data()
 
-        if self._df_validator.validate_df_exists(df):
+        if self._validate_df_exists(df):
             df = self._remove_df_nulls(df, self.remove_nulls)
             df = self._add_metadata(df)
             self._insert_data_to_db(df, self._target_table_name, self._target_schema_name)

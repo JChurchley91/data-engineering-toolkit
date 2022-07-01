@@ -18,7 +18,7 @@ class SourceCsvToDatabasePipeline(BasePipeline):
     def execute_pipeline(self):
         df = self.extract_csv_data()
 
-        if self._df_validator.validate_df_exists(df):
+        if self._validate_df_exists(df):
             self._add_metadata(df)
             self._insert_data_to_db(df, self._target_table_name, self._target_schema_name)
             self._write_logs(df, "successful", datetime.now())

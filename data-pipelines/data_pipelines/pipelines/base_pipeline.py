@@ -28,9 +28,6 @@ class BasePipeline:
     def _validate_df_exists(self, df):
         return self._df_validator.validate_df_exists(df)
 
-    def _remove_df_nulls(self, df, column):
-        return self._df_validator.remove_df_nulls(df, column)
-
     def _add_metadata(self, df) -> DataFrame:
         df = self._metadata_writer.add_datetime_metadata(df)
         return df
