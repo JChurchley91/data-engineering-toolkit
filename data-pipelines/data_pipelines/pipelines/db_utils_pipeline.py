@@ -1,4 +1,4 @@
-from data_pipelines.utils.sql_engine import SqlEngine
+from data_pipelines.utils.sql_utils import SqlEngine
 
 
 class DbUtilsPipeline:
