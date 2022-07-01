@@ -6,8 +6,9 @@ from data_pipelines.pipelines.db_utils_pipeline import (
 
 @op
 def op_truncate_pipeline_logs():
-    db_utils_pipeline = DbUtilsPipeline()
-    db_utils_pipeline.truncate_sql_table("metadata", "pipeline_logs")
+    db_utils_pipeline = DbUtilsPipeline("data_pipelines/util_jobs/configs/truncate_logs.yaml")
+    db_utils_pipeline.execute_pipeline()
+    return None
 
 
 @job
